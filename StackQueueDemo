@@ -1,0 +1,118 @@
+import java.util.Scanner;
+
+public class StackQueueDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        LinkedListStructure queue = new LinkedListStructure();
+        LinkedListStructure stack = new LinkedListStructure();
+
+        System.out.println("Enter integers (-1 to stop):");
+
+        while (true) {
+            int input = scanner.nextInt();
+
+            if (input == -1) {
+                break;
+            }
+
+            queue.enqueue(input); // queue add
+            stack.push(input);    // stack add
+        }
+
+        System.out.println("\nQueue output (FIFO):");
+        while (!queue.isEmpty()) {
+            System.out.print(queue.dequeue() + " ");
+        }
+
+        System.out.println("\nStack output (LIFO):");
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+
+        scanner.close();
+    }
+}
+
+// Node Class
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// Linked List (Stack + Queue) 
+class LinkedListStructure {
+    private Node head;
+    private Node tail;
+
+    public LinkedListStructure() {
+        head = null;
+        tail = null;
+    }
+
+    // Queue: enqueue
+    public void enqueue(int data) {
+        Node newNode = new Node(data);
+
+        if (tail == null) {
+            head = tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+    }
+
+    // Queue: dequeue
+    public int dequeue() {
+        if (head == null) {
+            System.out.println("Queue empty");
+            return -1;
+        }
+
+        int value = head.data;
+        head = head.next;
+
+        if (head == null) {
+            tail = null;
+        }
+
+        return value;
+    }
+
+    // Stack: push
+    public void push(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+
+        if (tail == null) {
+            tail = newNode;
+        }
+    }
+
+    // Stack: pop
+    public int pop() {
+        if (head == null) {
+            System.out.println("Stack empty");
+            return -1;
+        }
+
+        int value = head.data;
+        head = head.next;
+
+        if (head == null) {
+            tail = null;
+        }
+
+        return value;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+}
